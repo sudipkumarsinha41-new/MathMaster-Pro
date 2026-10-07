@@ -1,0 +1,2162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathMaster Pro | Practice Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'slide-down': 'slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'fade-out': 'fadeOut 0.3s ease-in forwards',
+                        'shake': 'shake 0.5s ease-in-out',
+                        'pulse-glow': 'pulseGlow 0.6s ease-out',
+                        'scale-in': 'scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'bounce-in': 'bounceIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                        'learn-in': 'learnIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        slideDown: {
+                            '0%': { transform: 'translateY(-120%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(0)', opacity: '1' },
+                            '100%': { transform: 'translateY(-120%)', opacity: '0' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        fadeOut: {
+                            '0%': { opacity: '1' },
+                            '100%': { opacity: '0' },
+                        },
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '20%': { transform: 'translateX(-8px)' },
+                            '40%': { transform: 'translateX(8px)' },
+                            '60%': { transform: 'translateX(-6px)' },
+                            '80%': { transform: 'translateX(4px)' },
+                        },
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 0 0 rgba(99, 102, 241, 0.6)' },
+                            '50%': { boxShadow: '0 0 0 18px rgba(99, 102, 241, 0)' },
+                            '100%': { boxShadow: '0 0 0 0 rgba(99, 102, 241, 0)' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.85)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.3)', opacity: '0' },
+                            '50%': { transform: 'scale(1.05)', opacity: '0.8' },
+                            '70%': { transform: 'scale(0.95)', opacity: '1' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        learnIn: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-deep: #070b19;
+            --bg-card: rgba(17, 24, 45, 0.55);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --glow-indigo: rgba(99, 102, 241, 0.35);
+            --glow-violet: rgba(139, 92, 246, 0.35);
+            --glow-amber: rgba(245, 158, 11, 0.35);
+            --glow-emerald: rgba(16, 185, 129, 0.4);
+            --glow-red: rgba(239, 68, 68, 0.4);
+            --instagram-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-deep);
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(ellipse at 20% 10%, rgba(99, 102, 241, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 75% 30%, rgba(139, 92, 246, 0.05) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 70%, rgba(245, 158, 11, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 85%, rgba(16, 185, 129, 0.03) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .glass-card.active-card {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 50px rgba(99, 102, 241, 0.2), 0 0 0 1px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Number chip */
+        .number-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid transparent;
+            background: rgba(30, 35, 55, 0.6);
+            color: #94a3b8;
+            position: relative;
+            outline: none !important;
+        }
+
+        .number-chip:hover {
+            background: rgba(40, 46, 70, 0.8);
+            color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .number-chip.selected {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(139, 92, 246, 0.3));
+            border-color: rgba(165, 180, 252, 0.5);
+            color: #e0e7ff;
+            box-shadow: 0 0 16px rgba(99, 102, 241, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        .number-chip.selected:hover {
+            box-shadow: 0 0 22px rgba(99, 102, 241, 0.4), 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .number-chip:focus-visible {
+            outline: 2px solid rgba(165, 180, 252, 0.6) !important;
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 640px) {
+            .number-chip {
+                width: 34px;
+                height: 34px;
+                border-radius: 9px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast-inner {
+            pointer-events: auto;
+            background: rgba(20, 28, 50, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 16px 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            white-space: nowrap;
+        }
+        @media (max-width: 480px) {
+            .toast-inner {
+                padding: 12px 16px;
+                gap: 10px;
+                font-size: 0.85rem;
+                border-radius: 12px;
+                white-space: normal;
+                text-align: center;
+            }
+        }
+
+        /* Quiz input */
+        #quiz-answer-input {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.03em;
+        }
+        #quiz-answer-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.15);
+            border-color: rgba(165, 180, 252, 0.6);
+        }
+        @media (max-width: 640px) {
+            #quiz-answer-input {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Feedback flash */
+        .feedback-correct {
+            animation: pulseGlow 0.6s ease-out;
+            border-color: #10b981 !important;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.45), 0 0 0 4px rgba(16, 185, 129, 0.15) !important;
+        }
+        .feedback-incorrect {
+            animation: shake 0.5s ease-in-out;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.45), 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Summary ring */
+        .ring-progress {
+            transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Overlay */
+        .overlay-bg {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        /* Clickable stat card */
+        .stat-card-clickable {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .stat-card-clickable:hover {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+        .stat-card-clickable.active-review {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Review list item */
+        .review-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 10px 14px;
+            transition: all 0.2s;
+        }
+        .review-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== CUSTOM BUTTON STYLES ===== */
+        .btn-select {
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            outline: none;
+        }
+
+        .btn-select:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+        }
+
+        .btn-select:focus,
+        .btn-select:focus-visible {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn-select.btn-select-all-active {
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+        }
+
+        .btn-select.btn-deselect-all-active {
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+        }
+
+        /* ===== LEARN BUTTON ===== */
+        .btn-learn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            outline: none;
+        }
+
+        .btn-learn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .btn-learn.active {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #a5b4fc;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn-learn .chevron-icon {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-learn.active .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Learn panel */
+        .learn-panel {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, margin-top 0.35s ease;
+            margin-top: 0;
+        }
+
+        .learn-panel.open {
+            max-height: 3000px;
+            opacity: 1;
+            margin-top: 1.25rem;
+        }
+
+        /* Learn value card */
+        .learn-value-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 8px 10px;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .learn-value-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Multiplication table style */
+        .mult-table-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .mult-table-card:hover {
+            background: rgba(99, 102, 241, 0.06);
+            border-color: rgba(99, 102, 241, 0.25);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.12);
+        }
+
+        .mult-table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* ===== INSTAGRAM BUTTON ===== */
+        .instagram-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #ffffff;
+            text-decoration: none;
+            background: var(--instagram-gradient);
+            box-shadow: 0 8px 24px rgba(220, 39, 67, 0.35), 0 4px 12px rgba(188, 24, 136, 0.25);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            outline: none;
+        }
+
+        .instagram-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .instagram-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .instagram-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(220, 39, 67, 0.5), 0 6px 20px rgba(188, 24, 136, 0.4);
+        }
+
+        .instagram-btn:hover::before {
+            opacity: 1;
+        }
+
+        .instagram-btn:active {
+            transform: translateY(-1px) scale(1);
+        }
+
+        .instagram-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Pulse animation for instagram button */
+        @keyframes instaPulse {
+            0%, 100% { box-shadow: 0 8px 24px rgba(220, 39, 67, 0.35), 0 4px 12px rgba(188, 24, 136, 0.25); }
+            50% { box-shadow: 0 8px 32px rgba(220, 39, 67, 0.5), 0 4px 20px rgba(188, 24, 136, 0.4); }
+        }
+
+        .instagram-btn {
+            animation: instaPulse 3s ease-in-out infinite;
+        }
+
+        /* Hide footer smoothly */
+        .footer-hidden {
+            opacity: 0;
+            visibility: hidden;
+            max-height: 0;
+            padding: 0 !important;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        #main-footer {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ===== SOUND TOGGLE BUTTON ===== */
+        .sound-toggle {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #94a3b8;
+            outline: none;
+        }
+
+        .sound-toggle:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #e2e8f0;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .sound-toggle.muted {
+            color: #64748b;
+        }
+
+        .sound-toggle.muted::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 26px;
+            height: 2px;
+            background: #ef4444;
+            border-radius: 2px;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+        }
+
+        /* Remove all default focus outlines globally */
+        button,
+        button:focus,
+        button:focus-visible,
+        button:active,
+        button:focus-within {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        #quiz-answer-input:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.15);
+            border-color: rgba(165, 180, 252, 0.6) !important;
+        }
+
+        .number-chip:focus-visible {
+            outline: 2px solid rgba(165, 180, 252, 0.6) !important;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-200 antialiased min-h-screen flex flex-col">
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast-container" class="toast-container" style="opacity: 0; pointer-events: none;">
+        <div class="toast-inner">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-white font-semibold text-sm tracking-wide">This website is created by <span class="text-indigo-300 font-bold">Sudip Sinha</span></p>
+                <p class="text-slate-400 text-xs mt-0.5">Welcome to MathMaster Pro</p>
+            </div>
+            <button id="toast-close-btn" class="flex-shrink-0 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer ml-2" aria-label="Close notification">
+                <svg class="w-3.5 h-3.5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="relative z-30 border-b border-white/5 bg-[rgba(10,16,32,0.7)] backdrop-blur-xl sticky top-0">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 12h3m2 0h3M8 8h3m2 0h3M8 16h3m2 0h3"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold text-white tracking-tight">MathMaster <span class="text-indigo-400">Pro</span></h1>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-3">
+                <button id="sound-toggle-desktop" class="sound-toggle" title="Toggle sound effects" aria-label="Toggle sound">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 18px; height: 18px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                    </svg>
+                </button>
+                <a href="https://www.instagram.com/sudip_sinha__?stkn=MW1odTFoMzNrbTloYg==" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   id="header-insta-desktop"
+                   class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                   style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 14px rgba(220, 39, 67, 0.35);"
+                   title="Connect on Instagram"
+                   aria-label="Instagram">
+                    <svg class="text-white" fill="currentColor" viewBox="0 0 24 24" style="width: 18px; height: 18px;">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </a>
+                <div class="flex items-center gap-2 text-xs text-slate-400 bg-white/5 rounded-full px-4 py-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
+                    Practice Dashboard
+                </div>
+            </div>
+            <div class="sm:hidden flex items-center gap-2">
+                <button id="sound-toggle-mobile" class="sound-toggle" title="Toggle sound effects" aria-label="Toggle sound">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                    </svg>
+                </button>
+                <a href="https://www.instagram.com/sudip_sinha__?stkn=MW1odTFoMzNrbTloYg==" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   id="header-insta-mobile"
+                   class="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95"
+                   style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 14px rgba(220, 39, 67, 0.35);"
+                   title="Connect on Instagram"
+                   aria-label="Instagram">
+                    <svg class="text-white" fill="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 relative z-10">
+
+        <!-- Module Selection Cards -->
+        <div id="module-cards" class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
+            <!-- Multiplication Card -->
+            <div class="module-card glass-card p-5 sm:p-6 cursor-pointer active-card relative" data-module="multiplication" id="card-multiplication">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500/30 to-blue-500/20 flex items-center justify-center border border-indigo-400/20">
+                        <span class="text-2xl font-bold text-indigo-300">×</span>
+                    </div>
+                    <span class="text-[10px] font-semibold uppercase tracking-widest text-indigo-300/70 bg-indigo-500/10 px-2.5 py-1 rounded-full">Module 1</span>
+                </div>
+                <h3 class="text-white font-semibold text-base sm:text-lg mb-1">Multiplication Tables</h3>
+                <p class="text-slate-400 text-sm mb-2">Times Tables <span class="text-slate-500">•</span> 1 to 25</p>
+                <div class="flex items-center gap-1.5 text-xs text-indigo-300/60">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    <span>Practice essential tables</span>
+                </div>
+                <div class="mt-3 h-1 rounded-full bg-gradient-to-r from-indigo-500/40 to-transparent w-full"></div>
+            </div>
+
+            <!-- Squares Card -->
+            <div class="module-card glass-card p-5 sm:p-6 cursor-pointer relative" data-module="squares" id="card-squares">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500/30 to-purple-500/20 flex items-center justify-center border border-violet-400/20">
+                        <span class="text-2xl font-bold text-violet-300">²</span>
+                    </div>
+                    <span class="text-[10px] font-semibold uppercase tracking-widest text-violet-300/70 bg-violet-500/10 px-2.5 py-1 rounded-full">Module 2</span>
+                </div>
+                <h3 class="text-white font-semibold text-base sm:text-lg mb-1">Squares</h3>
+                <p class="text-slate-400 text-sm mb-2">Perfect Squares <span class="text-slate-500">•</span> 1 to 40</p>
+                <div class="flex items-center gap-1.5 text-xs text-violet-300/60">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    <span>Master square values</span>
+                </div>
+                <div class="mt-3 h-1 rounded-full bg-gradient-to-r from-violet-500/40 to-transparent w-full"></div>
+            </div>
+
+            <!-- Cubes Card -->
+            <div class="module-card glass-card p-5 sm:p-6 cursor-pointer relative" data-module="cubes" id="card-cubes">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/30 to-orange-500/20 flex items-center justify-center border border-amber-400/20">
+                        <span class="text-2xl font-bold text-amber-300">³</span>
+                    </div>
+                    <span class="text-[10px] font-semibold uppercase tracking-widest text-amber-300/70 bg-amber-500/10 px-2.5 py-1 rounded-full">Module 3</span>
+                </div>
+                <h3 class="text-white font-semibold text-base sm:text-lg mb-1">Cubes</h3>
+                <p class="text-slate-400 text-sm mb-2">Perfect Cubes <span class="text-slate-500">•</span> 1 to 30</p>
+                <div class="flex items-center gap-1.5 text-xs text-amber-300/60">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    <span>Conquer cube values</span>
+                </div>
+                <div class="mt-3 h-1 rounded-full bg-gradient-to-r from-amber-500/40 to-transparent w-full"></div>
+            </div>
+        </div>
+
+        <!-- Content Panel -->
+        <div id="content-panel" class="glass-card p-5 sm:p-7 lg:p-8 transition-all duration-400">
+            <!-- Selection View -->
+            <div id="selection-view">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+                    <div>
+                        <h2 id="selection-title" class="text-xl sm:text-2xl font-bold text-white">Select Numbers to Practice</h2>
+                        <p id="selection-subtitle" class="text-slate-400 text-sm mt-1">Choose which multiplication tables you'd like to practice</p>
+                    </div>
+                    <div class="flex gap-2 flex-shrink-0 flex-wrap">
+                        <button id="btn-learn" class="btn-learn">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            <span>Learn</span>
+                            <svg class="w-3.5 h-3.5 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <button id="btn-select-all" class="btn-select">
+                            Select All
+                        </button>
+                        <button id="btn-deselect-all" class="btn-select">
+                            Deselect All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== LEARN PANEL ==================== -->
+                <div id="learn-panel" class="learn-panel">
+                    <div class="rounded-2xl border border-white/8 bg-white/2 p-4 sm:p-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div id="learn-icon-wrapper" class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500/30 to-violet-500/20 flex items-center justify-center border border-indigo-400/20">
+                                <svg id="learn-icon" class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 id="learn-title" class="text-white font-bold text-base sm:text-lg">Learn Multiplication Tables</h3>
+                                <p id="learn-subtitle" class="text-slate-400 text-xs sm:text-sm">Review all values before you practice</p>
+                            </div>
+                        </div>
+
+                        <!-- Learn Content Container -->
+                        <div id="learn-content" class="max-h-[420px] overflow-y-auto pr-1">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chips Container -->
+                <div id="chips-container" class="flex flex-wrap gap-2 sm:gap-2.5 max-h-[320px] overflow-y-auto py-2 mb-6 mt-5 justify-center sm:justify-start">
+                    <!-- Dynamically rendered -->
+                </div>
+
+                <!-- Selected count & Start -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-white/6">
+                    <div>
+                        <p class="text-slate-400 text-sm">
+                            <span id="selected-count" class="text-white font-semibold">25</span> number(s) selected
+                        </p>
+                        <p id="question-count-preview" class="text-slate-500 text-xs mt-1">This session will have <span class="text-indigo-300 font-semibold">250</span> questions</p>
+                    </div>
+                    <button id="btn-start-practice"
+                    class="w-full sm:w-auto px-8 py-3.5 rounded-2xl text-base font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 shadow-xl shadow-indigo-600/25 hover:shadow-indigo-500/35 transition-all duration-300 cursor-pointer tracking-wide flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-5.197-3.042A1 1 0 008 9.042v5.916a1 1 0 001.555.832l5.197-3.042a1 1 0 000-1.664z"/></svg>
+                    Start Practice
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz View (hidden by default) -->
+        <div id="quiz-view" class="hidden">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-7">
+                <div class="flex items-center gap-4 flex-wrap justify-center sm:justify-start">
+                    <div class="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2">
+                        <span class="text-slate-400 text-xs uppercase tracking-wider">Score</span>
+                        <span id="quiz-score" class="text-white font-bold text-lg">0</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+                        <span id="quiz-timer" class="text-white font-semibold text-sm tabular-nums">00:00</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/5 rounded-full px-4 py-2">
+                        <span class="text-slate-400 text-xs uppercase tracking-wider">Q</span>
+                        <span id="quiz-question-num" class="text-white font-semibold text-sm">1</span>
+                        <span class="text-slate-500">/</span>
+                        <span id="quiz-total-questions" class="text-slate-400 text-sm">20</span>
+                    </div>
+                </div>
+                <button id="btn-end-session"
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 bg-white/6 hover:bg-red-500/20 hover:text-red-300 border border-white/8 hover:border-red-500/30 transition-all duration-200 cursor-pointer">
+                End Session
+            </button>
+        </div>
+
+        <div class="text-center mb-7">
+            <p id="quiz-question-text" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-2">7 × 8 = ?</p>
+            <p class="text-slate-500 text-sm">Type your answer below</p>
+        </div>
+
+        <div class="max-w-md mx-auto">
+            <div class="relative">
+                <input type="number" id="quiz-answer-input"
+                class="w-full bg-[rgba(20,26,48,0.7)] border-2 border-white/10 rounded-2xl py-4 px-6 text-center text-white placeholder-slate-600 transition-all duration-200"
+                placeholder="Enter answer..." autocomplete="off" inputmode="numeric">
+            </div>
+            <div id="feedback-area" class="text-center mt-3 min-h-[28px] transition-all duration-300">
+            </div>
+            <button id="btn-submit-answer"
+            class="w-full mt-3 py-3.5 rounded-2xl text-base font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-xl shadow-emerald-600/20 hover:shadow-emerald-500/30 transition-all duration-300 cursor-pointer tracking-wide transform hover:-translate-y-0.5 active:translate-y-0">
+            Submit Answer
+        </button>
+        <p class="text-center text-slate-500 text-xs mt-3">or press <kbd class="px-1.5 py-0.5 bg-white/8 rounded text-slate-300 text-xs">Enter</kbd></p>
+    </div>
+</div>
+</div>
+
+<!-- ==================== SUMMARY MODAL OVERLAY ==================== -->
+<div id="summary-overlay" class="fixed inset-0 z-50 overlay-bg flex items-center justify-center p-4 hidden">
+    <div id="summary-modal" class="glass-card p-6 sm:p-8 lg:p-10 max-w-2xl w-full animate-scale-in text-center relative max-h-[90vh] overflow-y-auto">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Session Complete!</h2>
+        <p class="text-slate-400 text-sm mb-6">Here's your performance summary</p>
+
+        <div class="flex justify-center mb-5">
+            <div class="relative w-36 h-36 sm:w-44 sm:h-44">
+                <svg viewBox="0 0 120 120" class="w-full h-full -rotate-90">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                    <circle id="accuracy-ring" cx="60" cy="60" r="52" fill="none" stroke="url(#ringGradient)" stroke-width="8" stroke-linecap="round"
+                    stroke-dasharray="326.73" stroke-dashoffset="326.73" class="ring-progress"/>
+                    <defs>
+                        <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="50%" stop-color="#8b5cf6"/>
+                            <stop offset="100%" stop-color="#10b981"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span id="accuracy-percent" class="text-3xl sm:text-4xl font-extrabold text-white">0%</span>
+                    <span class="text-xs text-slate-400">Accuracy</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-white/5 rounded-xl p-3 sm:p-4">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-1">Total Answered</p>
+                <p id="stat-total" class="text-white text-xl font-bold">0</p>
+            </div>
+            <div id="stat-correct-card" class="bg-white/5 rounded-xl p-3 sm:p-4">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-1">Correct</p>
+                <p id="stat-correct" class="text-emerald-400 text-xl font-bold">0</p>
+            </div>
+            <div id="stat-incorrect-card" class="bg-white/5 rounded-xl p-3 sm:p-4 stat-card-clickable cursor-pointer" title="Click to review incorrect answers">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-1 flex items-center gap-1">
+                    Incorrect
+                    <svg id="incorrect-chevron" class="w-3 h-3 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                </p>
+                <p id="stat-incorrect" class="text-red-400 text-xl font-bold">0</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-3 sm:p-4">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-1">Time Taken</p>
+                <p id="stat-time" class="text-white text-xl font-bold">00:00</p>
+            </div>
+        </div>
+
+        <div id="incorrect-review-section" class="mb-6 transition-all duration-400 overflow-hidden" style="max-height: 0; opacity: 0;">
+            <div class="border-t border-white/10 pt-4 mt-2">
+                <h3 class="text-white font-semibold text-lg mb-3 flex items-center gap-2 justify-center">
+                    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
+                    Incorrect Answers Review
+                </h3>
+                <div id="incorrect-list-container" class="space-y-2 text-left max-h-64 overflow-y-auto px-1">
+                </div>
+            </div>
+        </div>
+
+        <div id="grade-display" class="mb-6 py-3 px-5 rounded-xl bg-white/5 inline-block">
+            <span id="grade-text" class="text-lg font-bold text-white">Great Job!</span>
+            <span id="grade-emoji" class="text-2xl ml-2">🌟</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button id="btn-practice-again"
+            class="flex-1 py-3 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 shadow-xl shadow-indigo-600/20 transition-all duration-300 cursor-pointer">
+            Practice Again
+        </button>
+        <button id="btn-change-settings"
+        class="flex-1 py-3 rounded-2xl text-sm font-semibold text-slate-300 bg-white/6 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 cursor-pointer">
+        Change Settings
+    </button>
+</div>
+</div>
+</div>
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer id="main-footer" class="relative z-10 border-t border-white/5 py-6 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center gap-4">
+            <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+                <p class="text-slate-400 text-xs sm:text-sm">Having any issue? Connect with me:</p>
+                <a href="https://www.instagram.com/sudip_sinha__?stkn=MW1odTFoMzNrbTloYg==" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="instagram-btn"
+                   title="DM me on Instagram for support"
+                   aria-label="Contact Sudip Sinha on Instagram">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                    <span>@sudip_sinha__</span>
+                </a>
+            </div>
+            
+            <div class="text-center pt-2 border-t border-white/5 w-full">
+                <p class="text-slate-500 text-xs sm:text-sm tracking-wide">© 2026 <span class="text-slate-300 font-medium">Sudip Sinha</span>. All rights reserved.</p>
+                <p class="text-slate-600 text-[10px] mt-1">MathMaster Pro — Precision Practice Platform</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+    (function() {
+        // ──────────────────────────────────────
+        // 🎵 PREMIUM SOUND ENGINE
+        // ──────────────────────────────────────
+        const SoundEngine = (function() {
+            let audioCtx = null;
+            let soundEnabled = true;
+            let masterGain = null;
+
+            function initAudio() {
+                if (audioCtx) return;
+                try {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AudioContext();
+                    masterGain = audioCtx.createGain();
+                    masterGain.gain.value = 0.35;
+                    masterGain.connect(audioCtx.destination);
+                } catch (e) {
+                    console.warn('Web Audio API not supported:', e);
+                }
+            }
+
+            function resumeAudio() {
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            }
+
+            function playTone(frequency, duration, type = 'sine', volume = 0.5, attackTime = 0.005, releaseTime = 0.15) {
+                if (!soundEnabled) return;
+                initAudio();
+                resumeAudio();
+                if (!audioCtx) return;
+
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(frequency, now);
+
+                gainNode.gain.setValueAtTime(0, now);
+                gainNode.gain.linearRampToValueAtTime(volume, now + attackTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration + releaseTime);
+
+                osc.connect(gainNode);
+                gainNode.connect(masterGain);
+
+                osc.start(now);
+                osc.stop(now + duration + releaseTime + 0.05);
+            }
+
+            function playNoise(duration, filterFreq, volume = 0.3) {
+                if (!soundEnabled) return;
+                initAudio();
+                resumeAudio();
+                if (!audioCtx) return;
+
+                const now = audioCtx.currentTime;
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = filterFreq;
+                filter.Q.value = 8;
+
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(volume, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+                noise.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(masterGain);
+
+                noise.start(now);
+                noise.stop(now + duration);
+            }
+
+            return {
+                playClick() {
+                    playTone(2400, 0.02, 'sine', 0.25, 0.001, 0.04);
+                    playTone(3200, 0.015, 'sine', 0.15, 0.001, 0.03);
+                    playNoise(0.02, 3500, 0.08);
+                },
+                playSelect() {
+                    playTone(1800, 0.04, 'sine', 0.3, 0.002, 0.06);
+                    playTone(2600, 0.05, 'triangle', 0.18, 0.002, 0.08);
+                },
+                playStart() {
+                    if (!soundEnabled) return;
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, i) => {
+                        setTimeout(() => {
+                            playTone(freq, 0.15, 'sine', 0.35, 0.01, 0.3);
+                            playTone(freq * 2, 0.1, 'sine', 0.12, 0.01, 0.2);
+                        }, i * 70);
+                    });
+                },
+                playCorrect() {
+                    if (!soundEnabled) return;
+                    setTimeout(() => {
+                        playTone(523.25, 0.2, 'sine', 0.35, 0.01, 0.4);
+                        playTone(659.25, 0.2, 'sine', 0.28, 0.01, 0.4);
+                        playTone(783.99, 0.25, 'sine', 0.22, 0.01, 0.5);
+                    }, 0);
+                    setTimeout(() => {
+                        playTone(1046.50, 0.3, 'sine', 0.25, 0.01, 0.5);
+                        playTone(1318.51, 0.25, 'triangle', 0.15, 0.01, 0.45);
+                    }, 60);
+                },
+                playWrong() {
+                    if (!soundEnabled) return;
+                    playTone(311.13, 0.15, 'sawtooth', 0.15, 0.005, 0.2);
+                    setTimeout(() => {
+                        playTone(233.08, 0.25, 'sawtooth', 0.18, 0.005, 0.3);
+                    }, 80);
+                    playTone(116.54, 0.3, 'sine', 0.15, 0.01, 0.35);
+                    playNoise(0.12, 400, 0.12);
+                },
+                playWhoosh() {
+                    if (!soundEnabled) return;
+                    initAudio();
+                    resumeAudio();
+                    if (!audioCtx) return;
+
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    const filter = audioCtx.createBiquadFilter();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1800, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.18);
+
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(4000, now);
+                    filter.frequency.exponentialRampToValueAtTime(800, now + 0.18);
+                    filter.Q.value = 5;
+
+                    gainNode.gain.setValueAtTime(0, now);
+                    gainNode.gain.linearRampToValueAtTime(0.25, now + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+
+                    osc.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(masterGain);
+
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                },
+                playEnd() {
+                    if (!soundEnabled) return;
+                    const notes = [783.99, 659.25, 523.25];
+                    notes.forEach((freq, i) => {
+                        setTimeout(() => {
+                            playTone(freq, 0.3, 'sine', 0.28, 0.02, 0.4);
+                        }, i * 120);
+                    });
+                    playTone(261.63, 0.5, 'sine', 0.15, 0.05, 0.5);
+                },
+                playModalOpen() {
+                    if (!soundEnabled) return;
+                    playTone(880, 0.15, 'sine', 0.22, 0.005, 0.25);
+                    setTimeout(() => {
+                        playTone(1174.66, 0.2, 'sine', 0.2, 0.005, 0.3);
+                    }, 70);
+                },
+                playNotification() {
+                    if (!soundEnabled) return;
+                    playTone(1567.98, 0.1, 'sine', 0.18, 0.005, 0.15);
+                    setTimeout(() => {
+                        playTone(2093.00, 0.15, 'sine', 0.15, 0.005, 0.2);
+                    }, 60);
+                },
+                playLearnOpen() {
+                    if (!soundEnabled) return;
+                    playTone(1046.50, 0.1, 'sine', 0.2, 0.005, 0.15);
+                    setTimeout(() => {
+                        playTone(1318.51, 0.12, 'sine', 0.18, 0.005, 0.2);
+                    }, 50);
+                    setTimeout(() => {
+                        playTone(1567.98, 0.15, 'sine', 0.16, 0.005, 0.25);
+                    }, 100);
+                },
+                playLearnClose() {
+                    if (!soundEnabled) return;
+                    playTone(1567.98, 0.08, 'sine', 0.15, 0.005, 0.12);
+                    setTimeout(() => {
+                        playTone(1046.50, 0.12, 'sine', 0.18, 0.005, 0.18);
+                    }, 40);
+                },
+                toggle() {
+                    soundEnabled = !soundEnabled;
+                    if (soundEnabled) {
+                        initAudio();
+                        resumeAudio();
+                        playTone(1046.50, 0.1, 'sine', 0.2, 0.005, 0.1);
+                    }
+                    return soundEnabled;
+                },
+                isEnabled() { return soundEnabled; },
+                unlock() {
+                    initAudio();
+                    resumeAudio();
+                }
+            };
+        })();
+
+        // ──────────────────────────────────────
+        // DOM References
+        // ──────────────────────────────────────
+        const toastContainer = document.getElementById('toast-container');
+        const toastCloseBtn = document.getElementById('toast-close-btn');
+        const moduleCards = document.querySelectorAll('.module-card');
+        const selectionView = document.getElementById('selection-view');
+        const quizView = document.getElementById('quiz-view');
+        const chipsContainer = document.getElementById('chips-container');
+        const selectionTitle = document.getElementById('selection-title');
+        const selectionSubtitle = document.getElementById('selection-subtitle');
+        const selectedCountEl = document.getElementById('selected-count');
+        const questionCountPreview = document.getElementById('question-count-preview');
+        const btnSelectAll = document.getElementById('btn-select-all');
+        const btnDeselectAll = document.getElementById('btn-deselect-all');
+        const btnStartPractice = document.getElementById('btn-start-practice');
+        const btnEndSession = document.getElementById('btn-end-session');
+        const btnSubmitAnswer = document.getElementById('btn-submit-answer');
+        const quizScoreEl = document.getElementById('quiz-score');
+        const quizTimerEl = document.getElementById('quiz-timer');
+        const quizQuestionNumEl = document.getElementById('quiz-question-num');
+        const quizTotalQuestionsEl = document.getElementById('quiz-total-questions');
+        const quizQuestionText = document.getElementById('quiz-question-text');
+        const quizAnswerInput = document.getElementById('quiz-answer-input');
+        const feedbackArea = document.getElementById('feedback-area');
+        const summaryOverlay = document.getElementById('summary-overlay');
+        const summaryModal = document.getElementById('summary-modal');
+        const accuracyRing = document.getElementById('accuracy-ring');
+        const accuracyPercent = document.getElementById('accuracy-percent');
+        const statTotal = document.getElementById('stat-total');
+        const statCorrect = document.getElementById('stat-correct');
+        const statIncorrect = document.getElementById('stat-incorrect');
+        const statTime = document.getElementById('stat-time');
+        const gradeText = document.getElementById('grade-text');
+        const gradeEmoji = document.getElementById('grade-emoji');
+        const btnPracticeAgain = document.getElementById('btn-practice-again');
+        const btnChangeSettings = document.getElementById('btn-change-settings');
+        const contentPanel = document.getElementById('content-panel');
+        const statIncorrectCard = document.getElementById('stat-incorrect-card');
+        const incorrectReviewSection = document.getElementById('incorrect-review-section');
+        const incorrectListContainer = document.getElementById('incorrect-list-container');
+        const incorrectChevron = document.getElementById('incorrect-chevron');
+        const mainFooter = document.getElementById('main-footer');
+        const headerInstaDesktop = document.getElementById('header-insta-desktop');
+        const headerInstaMobile = document.getElementById('header-insta-mobile');
+        const soundToggleDesktop = document.getElementById('sound-toggle-desktop');
+        const soundToggleMobile = document.getElementById('sound-toggle-mobile');
+        const btnLearn = document.getElementById('btn-learn');
+        const learnPanel = document.getElementById('learn-panel');
+        const learnContent = document.getElementById('learn-content');
+        const learnTitle = document.getElementById('learn-title');
+        const learnSubtitle = document.getElementById('learn-subtitle');
+        const learnIconWrapper = document.getElementById('learn-icon-wrapper');
+        const learnIcon = document.getElementById('learn-icon');
+
+        // ──────────────────────────────────────
+        // Module Configuration
+        // ──────────────────────────────────────
+        const MODULE_CONFIG = {
+            multiplication: {
+                name: 'Multiplication Tables',
+                subtitle: 'Choose which multiplication tables you\'d like to practice',
+                range: 25,
+                label: 'Times Tables • 1 to 25',
+                multipliersPerTable: 10,
+                generatePool: (selectedNumbers) => {
+                    const pool = [];
+                    selectedNumbers.forEach(num => {
+                        for (let multiplier = 1; multiplier <= 10; multiplier++) {
+                            pool.push({
+                                text: `${num} × ${multiplier} = ?`,
+                                answer: num * multiplier,
+                                baseNumber: num,
+                                multiplier: multiplier,
+                            });
+                        }
+                    });
+                    return pool;
+                },
+                cardId: 'card-multiplication',
+            },
+            squares: {
+                name: 'Squares',
+                subtitle: 'Choose which numbers to square for practice',
+                range: 40,
+                label: 'Perfect Squares • 1 to 40',
+                multipliersPerTable: 1,
+                generatePool: (selectedNumbers) => {
+                    return selectedNumbers.map(num => ({
+                        text: `${num}² = ?`,
+                        answer: num * num,
+                        baseNumber: num,
+                    }));
+                },
+                cardId: 'card-squares',
+            },
+            cubes: {
+                name: 'Cubes',
+                subtitle: 'Choose which numbers to cube for practice',
+                range: 30,
+                label: 'Perfect Cubes • 1 to 30',
+                multipliersPerTable: 1,
+                generatePool: (selectedNumbers) => {
+                    return selectedNumbers.map(num => ({
+                        text: `${num}³ = ?`,
+                        answer: num * num * num,
+                        baseNumber: num,
+                    }));
+                },
+                cardId: 'card-cubes',
+            },
+        };
+
+        // ──────────────────────────────────────
+        // Application State
+        // ──────────────────────────────────────
+        const state = {
+            currentModule: 'multiplication',
+            currentView: 'selection',
+            selectedNumbers: {
+                multiplication: Array.from({ length: 25 }, (_, i) => i + 1),
+                squares: Array.from({ length: 40 }, (_, i) => i + 1),
+                cubes: Array.from({ length: 30 }, (_, i) => i + 1),
+            },
+            quiz: {
+                questionPool: [],
+                questionQueue: [],
+                currentQuestionIndex: 0,
+                correctAnswers: 0,
+                totalAttempted: 0,
+                incorrectAnswers: [],
+                timerSeconds: 0,
+                timerInterval: null,
+                isLocked: false,
+                sessionActive: false,
+            },
+            toastTimeout: null,
+            isReviewExpanded: false,
+            activeSelectButton: null,
+            isLearnOpen: false,
+        };
+
+        // ──────────────────────────────────────
+        // Utility: Calculate total questions for current selection
+        // ──────────────────────────────────────
+        function calculateQuestionCount() {
+            const selected = state.selectedNumbers[state.currentModule];
+            const config = MODULE_CONFIG[state.currentModule];
+            return selected.length * config.multipliersPerTable;
+        }
+
+        // ──────────────────────────────────────
+        // Utility: Fisher-Yates Shuffle
+        // ──────────────────────────────────────
+        function shuffleArray(arr) {
+            const shuffled = [...arr];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // ──────────────────────────────────────
+        // Utility: Show/Hide Footer & Header Instagram Icons
+        // ──────────────────────────────────────
+        function showFooterAndInstaIcons() {
+            mainFooter.classList.remove('footer-hidden');
+            if (headerInstaDesktop) {
+                headerInstaDesktop.style.opacity = '1';
+                headerInstaDesktop.style.pointerEvents = 'auto';
+                headerInstaDesktop.style.visibility = 'visible';
+            }
+            if (headerInstaMobile) {
+                headerInstaMobile.style.opacity = '1';
+                headerInstaMobile.style.pointerEvents = 'auto';
+                headerInstaMobile.style.visibility = 'visible';
+            }
+        }
+
+        function hideFooterAndInstaIcons() {
+            mainFooter.classList.add('footer-hidden');
+            if (headerInstaDesktop) {
+                headerInstaDesktop.style.opacity = '0';
+                headerInstaDesktop.style.pointerEvents = 'none';
+                headerInstaDesktop.style.visibility = 'hidden';
+            }
+            if (headerInstaMobile) {
+                headerInstaMobile.style.opacity = '0';
+                headerInstaMobile.style.pointerEvents = 'none';
+                headerInstaMobile.style.visibility = 'hidden';
+            }
+        }
+
+        // ──────────────────────────────────────
+        // Utility: Update active button border
+        // ──────────────────────────────────────
+        function setActiveButton(button) {
+            btnSelectAll.classList.remove('btn-select-all-active');
+            btnDeselectAll.classList.remove('btn-deselect-all-active');
+            
+            if (button === 'selectAll') {
+                btnSelectAll.classList.add('btn-select-all-active');
+                state.activeSelectButton = 'selectAll';
+            } else if (button === 'deselectAll') {
+                btnDeselectAll.classList.add('btn-deselect-all-active');
+                state.activeSelectButton = 'deselectAll';
+            } else {
+                state.activeSelectButton = null;
+            }
+        }
+
+        // ──────────────────────────────────────
+        // LEARN SECTION
+        // ──────────────────────────────────────
+        function renderLearnContent() {
+            const module = state.currentModule;
+            learnContent.innerHTML = '';
+
+            if (module === 'multiplication') {
+                learnTitle.textContent = 'Learn Times Tables';
+                learnSubtitle.textContent = 'Review tables from 1 to 25 — practice makes perfect!';
+                learnIconWrapper.className = 'w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500/30 to-blue-500/20 flex items-center justify-center border border-indigo-400/20';
+                learnIcon.className = 'w-5 h-5 text-indigo-300';
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3';
+
+                for (let i = 1; i <= 25; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'mult-table-card';
+                    let rows = '';
+                    for (let j = 1; j <= 10; j++) {
+                        rows += `
+                            <div class="flex items-center justify-between text-[11px] sm:text-xs py-0.5">
+                                <span class="text-slate-400">${i} × ${j}</span>
+                                <span class="text-indigo-200 font-semibold tabular-nums">${i * j}</span>
+                            </div>
+                        `;
+                    }
+                    card.innerHTML = `
+                        <div class="mult-table-header">
+                            <span class="text-[10px] font-semibold uppercase tracking-widest text-indigo-300/70">Table</span>
+                            <span class="text-sm font-bold text-white">${i}×</span>
+                        </div>
+                        <div>${rows}</div>
+                    `;
+                    grid.appendChild(card);
+                }
+                learnContent.appendChild(grid);
+            } 
+            else if (module === 'squares') {
+                learnTitle.textContent = 'Learn Perfect Squares';
+                learnSubtitle.textContent = 'Review squares from 1² to 40² — master square values!';
+                learnIconWrapper.className = 'w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/30 to-purple-500/20 flex items-center justify-center border border-violet-400/20';
+                learnIcon.className = 'w-5 h-5 text-violet-300';
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5';
+
+                for (let i = 1; i <= 40; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'learn-value-card flex items-center justify-between gap-2 px-3 py-2.5';
+                    card.innerHTML = `
+                        <span class="text-violet-300/80 font-medium text-xs sm:text-sm">${i}²</span>
+                        <span class="text-white font-bold text-sm sm:text-base tabular-nums">${i * i}</span>
+                    `;
+                    grid.appendChild(card);
+                }
+                learnContent.appendChild(grid);
+            } 
+            else if (module === 'cubes') {
+                learnTitle.textContent = 'Learn Perfect Cubes';
+                learnSubtitle.textContent = 'Review cubes from 1³ to 30³ — conquer cube values!';
+                learnIconWrapper.className = 'w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/30 to-orange-500/20 flex items-center justify-center border border-amber-400/20';
+                learnIcon.className = 'w-5 h-5 text-amber-300';
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5';
+
+                for (let i = 1; i <= 30; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'learn-value-card flex items-center justify-between gap-2 px-3 py-2.5';
+                    card.innerHTML = `
+                        <span class="text-amber-300/80 font-medium text-xs sm:text-sm">${i}³</span>
+                        <span class="text-white font-bold text-sm sm:text-base tabular-nums">${i * i * i}</span>
+                    `;
+                    grid.appendChild(card);
+                }
+                learnContent.appendChild(grid);
+            }
+        }
+
+        function toggleLearnPanel() {
+            state.isLearnOpen = !state.isLearnOpen;
+            
+            if (state.isLearnOpen) {
+                renderLearnContent();
+                learnPanel.classList.add('open');
+                btnLearn.classList.add('active');
+                SoundEngine.playLearnOpen();
+            } else {
+                learnPanel.classList.remove('open');
+                btnLearn.classList.remove('active');
+                SoundEngine.playLearnClose();
+            }
+            btnLearn.blur();
+        }
+
+        btnLearn.addEventListener('click', toggleLearnPanel);
+
+        function closeLearnPanel() {
+            if (state.isLearnOpen) {
+                state.isLearnOpen = false;
+                learnPanel.classList.remove('open');
+                btnLearn.classList.remove('active');
+            }
+        }
+
+        // ──────────────────────────────────────
+        // Toast Notification
+        // ──────────────────────────────────────
+        function showToast() {
+            toastContainer.style.opacity = '1';
+            toastContainer.style.pointerEvents = 'auto';
+            const inner = toastContainer.querySelector('.toast-inner');
+            inner.classList.add('animate-slide-down');
+            inner.classList.remove('animate-slide-up');
+
+            SoundEngine.playNotification();
+
+            state.toastTimeout = setTimeout(() => {
+                dismissToast();
+            }, 5000);
+        }
+
+        function dismissToast() {
+            const inner = toastContainer.querySelector('.toast-inner');
+            inner.classList.remove('animate-slide-down');
+            inner.classList.add('animate-slide-up');
+            clearTimeout(state.toastTimeout);
+            setTimeout(() => {
+                toastContainer.style.opacity = '0';
+                toastContainer.style.pointerEvents = 'none';
+            }, 400);
+        }
+
+        toastCloseBtn.addEventListener('click', () => {
+            SoundEngine.playClick();
+            dismissToast();
+        });
+
+        // ──────────────────────────────────────
+        // Sound Toggle Handlers
+        // ──────────────────────────────────────
+        function updateSoundIcon(isEnabled) {
+            const iconPath = isEnabled 
+                ? 'M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z'
+                : 'M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l4-4m0 4l-4-4';
+            
+            [soundToggleDesktop, soundToggleMobile].forEach(btn => {
+                if (!btn) return;
+                const svg = btn.querySelector('svg');
+                if (svg) {
+                    svg.querySelector('path').setAttribute('d', iconPath);
+                }
+                if (isEnabled) {
+                    btn.classList.remove('muted');
+                } else {
+                    btn.classList.add('muted');
+                }
+            });
+        }
+
+        function handleSoundToggle(e) {
+            const isEnabled = SoundEngine.toggle();
+            updateSoundIcon(isEnabled);
+            if (e && e.currentTarget) e.currentTarget.blur();
+        }
+
+        if (soundToggleDesktop) soundToggleDesktop.addEventListener('click', handleSoundToggle);
+        if (soundToggleMobile) soundToggleMobile.addEventListener('click', handleSoundToggle);
+
+        updateSoundIcon(true);
+
+        // ──────────────────────────────────────
+        // Module Switching
+        // ──────────────────────────────────────
+        function switchModule(moduleName) {
+            if (state.currentView === 'quiz') {
+                endSession(true);
+            }
+            state.currentModule = moduleName;
+            closeLearnPanel();
+            updateModuleCards();
+            updateSelectionUI();
+            renderChips();
+        }
+
+        function updateModuleCards() {
+            moduleCards.forEach(card => {
+                const mod = card.getAttribute('data-module');
+                card.classList.remove('active-card');
+                if (mod === state.currentModule) {
+                    card.classList.add('active-card');
+                }
+            });
+        }
+
+        function updateSelectionUI() {
+            const config = MODULE_CONFIG[state.currentModule];
+            selectionTitle.textContent = `Select Numbers to Practice`;
+            selectionSubtitle.textContent = config.subtitle;
+            const count = state.selectedNumbers[state.currentModule].length;
+            selectedCountEl.textContent = count;
+            updateQuestionCountPreview();
+            updateStartButtonState();
+        }
+
+        function updateQuestionCountPreview() {
+            const total = calculateQuestionCount();
+            const count = state.selectedNumbers[state.currentModule].length;
+            if (count === 0) {
+                questionCountPreview.innerHTML = 'Select at least one number to begin';
+            } else {
+                questionCountPreview.innerHTML = `This session will have <span class="text-indigo-300 font-semibold">${total}</span> unique question${total !== 1 ? 's' : ''}`;
+            }
+        }
+
+        function updateStartButtonState() {
+            const count = state.selectedNumbers[state.currentModule].length;
+            btnStartPractice.disabled = count === 0;
+            btnStartPractice.style.opacity = count === 0 ? '0.4' : '1';
+            btnStartPractice.style.cursor = count === 0 ? 'not-allowed' : 'pointer';
+            btnStartPractice.style.pointerEvents = count === 0 ? 'none' : 'auto';
+        }
+
+        // ──────────────────────────────────────
+        // Number Chips Rendering
+        // ──────────────────────────────────────
+        function renderChips() {
+            const config = MODULE_CONFIG[state.currentModule];
+            const totalNumbers = config.range;
+            const selected = state.selectedNumbers[state.currentModule];
+            const selectedSet = new Set(selected);
+
+            chipsContainer.innerHTML = '';
+            for (let i = 1; i <= totalNumbers; i++) {
+                const chip = document.createElement('button');
+                chip.type = 'button';
+                chip.className = 'number-chip';
+                if (selectedSet.has(i)) {
+                    chip.classList.add('selected');
+                }
+                chip.textContent = i;
+                chip.setAttribute('data-number', i);
+                chip.addEventListener('click', () => {
+                    SoundEngine.playSelect();
+                    toggleNumber(i);
+                });
+                chipsContainer.appendChild(chip);
+            }
+
+            selectedCountEl.textContent = selected.length;
+            updateQuestionCountPreview();
+            updateStartButtonState();
+        }
+
+        function toggleNumber(num) {
+            const selected = state.selectedNumbers[state.currentModule];
+            const index = selected.indexOf(num);
+            if (index > -1) {
+                selected.splice(index, 1);
+            } else {
+                selected.push(num);
+                selected.sort((a, b) => a - b);
+            }
+            const chip = chipsContainer.querySelector(`[data-number="${num}"]`);
+            if (chip) {
+                if (selected.includes(num)) {
+                    chip.classList.add('selected');
+                } else {
+                    chip.classList.remove('selected');
+                }
+            }
+            selectedCountEl.textContent = selected.length;
+            updateQuestionCountPreview();
+            updateStartButtonState();
+        }
+
+        function selectAll(e) {
+            SoundEngine.playWhoosh();
+            const config = MODULE_CONFIG[state.currentModule];
+            state.selectedNumbers[state.currentModule] = Array.from({ length: config.range }, (_, i) => i + 1);
+            renderChips();
+            setActiveButton('selectAll');
+            if (e && e.target) e.target.blur();
+            btnSelectAll.blur();
+        }
+
+        function deselectAll(e) {
+            SoundEngine.playWhoosh();
+            state.selectedNumbers[state.currentModule] = [];
+            renderChips();
+            setActiveButton('deselectAll');
+            if (e && e.target) e.target.blur();
+            btnDeselectAll.blur();
+        }
+
+        btnSelectAll.addEventListener('click', selectAll);
+        btnDeselectAll.addEventListener('click', deselectAll);
+
+        // ──────────────────────────────────────
+        // Module Card Clicks
+        // ──────────────────────────────────────
+        moduleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                SoundEngine.playClick();
+                const mod = card.getAttribute('data-module');
+                if (state.currentView === 'quiz') {
+                    endSession(true);
+                }
+                if (mod !== state.currentModule || state.currentView !== 'quiz') {
+                    switchModule(mod);
+                }
+            });
+        });
+
+        // ──────────────────────────────────────
+        // Quiz Engine — NO LIMIT: All selected questions appear
+        // ──────────────────────────────────────
+        function prepareQuestionQueue() {
+            const selected = state.selectedNumbers[state.currentModule];
+            const config = MODULE_CONFIG[state.currentModule];
+            const fullPool = config.generatePool(selected);
+            if (fullPool.length === 0) return [];
+            // Shuffle entire pool but include ALL questions — no limit
+            return shuffleArray(fullPool);
+        }
+
+        function startQuiz() {
+            const selected = state.selectedNumbers[state.currentModule];
+            if (selected.length === 0) {
+                btnStartPractice.classList.add('animate-shake');
+                setTimeout(() => btnStartPractice.classList.remove('animate-shake'), 500);
+                return;
+            }
+
+            const queue = prepareQuestionQueue();
+            if (queue.length === 0) {
+                alert('No questions could be generated. Please select at least one number.');
+                return;
+            }
+
+            SoundEngine.playStart();
+            closeLearnPanel();
+            hideFooterAndInstaIcons();
+
+            state.currentView = 'quiz';
+            state.quiz = {
+                questionPool: [],
+                questionQueue: queue,
+                currentQuestionIndex: 0,
+                correctAnswers: 0,
+                totalAttempted: 0,
+                incorrectAnswers: [],
+                timerSeconds: 0,
+                timerInterval: null,
+                isLocked: false,
+                sessionActive: true,
+            };
+
+            selectionView.classList.add('hidden');
+            quizView.classList.remove('hidden');
+            quizView.classList.add('animate-fade-in');
+            moduleCards.forEach(c => c.style.pointerEvents = 'none');
+
+            quizTotalQuestionsEl.textContent = queue.length;
+            updateQuizUI();
+            displayCurrentQuestion();
+            startTimer();
+            quizAnswerInput.focus();
+            btnStartPractice.style.display = 'none';
+        }
+
+        function displayCurrentQuestion() {
+            if (state.quiz.currentQuestionIndex >= state.quiz.questionQueue.length) {
+                endSession(false);
+                return;
+            }
+
+            const question = state.quiz.questionQueue[state.quiz.currentQuestionIndex];
+            quizQuestionText.textContent = question.text;
+            quizQuestionNumEl.textContent = state.quiz.currentQuestionIndex + 1;
+            quizAnswerInput.value = '';
+            quizAnswerInput.classList.remove('feedback-correct', 'feedback-incorrect');
+            feedbackArea.innerHTML = '';
+            state.quiz.isLocked = false;
+            quizAnswerInput.disabled = false;
+            btnSubmitAnswer.disabled = false;
+            quizAnswerInput.focus();
+        }
+
+        function updateQuizUI() {
+            quizScoreEl.textContent = `${state.quiz.correctAnswers}`;
+            quizTimerEl.textContent = formatTime(state.quiz.timerSeconds);
+        }
+
+        function startTimer() {
+            state.quiz.timerInterval = setInterval(() => {
+                state.quiz.timerSeconds++;
+                quizTimerEl.textContent = formatTime(state.quiz.timerSeconds);
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (state.quiz.timerInterval) {
+                clearInterval(state.quiz.timerInterval);
+                state.quiz.timerInterval = null;
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        function submitAnswer() {
+            if (!state.quiz.sessionActive || state.quiz.isLocked) return;
+            if (state.quiz.currentQuestionIndex >= state.quiz.questionQueue.length) return;
+
+            const userAnswerStr = quizAnswerInput.value.trim();
+            if (userAnswerStr === '') {
+                quizAnswerInput.classList.add('animate-shake');
+                setTimeout(() => quizAnswerInput.classList.remove('animate-shake'), 500);
+                quizAnswerInput.focus();
+                return;
+            }
+
+            const userAnswer = parseInt(userAnswerStr, 10);
+            const currentQuestion = state.quiz.questionQueue[state.quiz.currentQuestionIndex];
+            const correctAnswer = currentQuestion.answer;
+            const isCorrect = userAnswer === correctAnswer;
+
+            state.quiz.isLocked = true;
+            state.quiz.totalAttempted++;
+            quizAnswerInput.disabled = true;
+            btnSubmitAnswer.disabled = true;
+
+            if (isCorrect) {
+                state.quiz.correctAnswers++;
+                quizAnswerInput.classList.add('feedback-correct');
+                feedbackArea.innerHTML = '<span class="text-emerald-400 font-semibold text-sm animate-fade-in">✓ Correct! Well done.</span>';
+                SoundEngine.playCorrect();
+            } else {
+                state.quiz.incorrectAnswers.push({
+                    questionText: currentQuestion.text,
+                    userAnswer: userAnswer,
+                    correctAnswer: correctAnswer,
+                });
+                quizAnswerInput.classList.add('feedback-incorrect');
+                feedbackArea.innerHTML = `<span class="text-red-400 font-semibold text-sm animate-fade-in">✗ Incorrect. The answer was <strong class="text-white">${correctAnswer}</strong></span>`;
+                SoundEngine.playWrong();
+            }
+
+            updateQuizUI();
+
+            setTimeout(() => {
+                if (state.quiz.sessionActive) {
+                    state.quiz.currentQuestionIndex++;
+                    if (state.quiz.currentQuestionIndex >= state.quiz.questionQueue.length) {
+                        endSession(false);
+                    } else {
+                        displayCurrentQuestion();
+                        updateQuizUI();
+                    }
+                }
+            }, 1300);
+        }
+
+        function endSession(silent = false) {
+            stopTimer();
+            const wasActive = state.quiz.sessionActive;
+            state.quiz.sessionActive = false;
+            state.currentView = 'selection';
+
+            quizView.classList.add('hidden');
+            quizView.classList.remove('animate-fade-in');
+            selectionView.classList.remove('hidden');
+            selectionView.classList.add('animate-fade-in');
+            btnStartPractice.style.display = '';
+            moduleCards.forEach(c => c.style.pointerEvents = 'auto');
+
+            if (!silent && wasActive && state.quiz.totalAttempted > 0) {
+                showSummary();
+            } else if (!silent && wasActive && state.quiz.totalAttempted === 0) {
+                showFooterAndInstaIcons();
+                updateSelectionUI();
+                renderChips();
+            } else if (silent && wasActive && state.quiz.totalAttempted > 0) {
+                showSummary();
+            }
+
+            if (!wasActive || state.quiz.totalAttempted === 0) {
+                showFooterAndInstaIcons();
+                updateSelectionUI();
+                renderChips();
+            }
+
+            const incorrectForSummary = [...state.quiz.incorrectAnswers];
+
+            state.quiz = {
+                questionPool: [],
+                questionQueue: [],
+                currentQuestionIndex: 0,
+                correctAnswers: 0,
+                totalAttempted: 0,
+                incorrectAnswers: [],
+                timerSeconds: 0,
+                timerInterval: null,
+                isLocked: false,
+                sessionActive: false,
+            };
+
+            state._lastIncorrectAnswers = incorrectForSummary;
+            state._lastTotalAttempted = state.quiz.totalAttempted || (wasActive ? state.quiz.totalAttempted : 0);
+        }
+
+        // ──────────────────────────────────────
+        // Summary Modal
+        // ──────────────────────────────────────
+        function showSummary() {
+            const total = state.quiz.totalAttempted || state._lastTotalAttempted || 0;
+            const correct = state.quiz.correctAnswers;
+            const incorrectAnswersList = state.quiz.incorrectAnswers.length > 0 ? state.quiz.incorrectAnswers : (state._lastIncorrectAnswers || []);
+            const incorrect = incorrectAnswersList.length;
+            const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const timeStr = formatTime(state.quiz.timerSeconds);
+
+            statTotal.textContent = total;
+            statCorrect.textContent = correct;
+            statIncorrect.textContent = incorrect;
+            statTime.textContent = timeStr;
+            accuracyPercent.textContent = accuracy + '%';
+
+            const circumference = 2 * Math.PI * 52;
+            const offset = circumference * (1 - accuracy / 100);
+            accuracyRing.style.strokeDasharray = circumference;
+            accuracyRing.style.strokeDashoffset = offset;
+
+            let grade, emoji;
+            if (accuracy >= 95) { grade = 'Outstanding!';
+                emoji = '🏆'; } else if (accuracy >= 85) { grade = 'Excellent!';
+                emoji = '🌟'; } else if (accuracy >= 70) { grade = 'Great Job!';
+                emoji = '👏'; } else if (accuracy >= 50) { grade = 'Good Effort!';
+                emoji = '💪'; } else if (total > 0) { grade = 'Keep Practicing!';
+                emoji = '📚'; } else { grade = 'No Data';
+                emoji = '📋'; }
+            gradeText.textContent = grade;
+            gradeEmoji.textContent = emoji;
+
+            renderIncorrectReviewList(incorrectAnswersList);
+
+            state.isReviewExpanded = false;
+            incorrectReviewSection.style.maxHeight = '0';
+            incorrectReviewSection.style.opacity = '0';
+            incorrectChevron.style.transform = 'rotate(0deg)';
+            statIncorrectCard.classList.remove('active-review');
+
+            if (incorrect > 0) {
+                statIncorrectCard.style.pointerEvents = 'auto';
+                statIncorrectCard.style.cursor = 'pointer';
+            } else {
+                statIncorrectCard.style.pointerEvents = 'none';
+                statIncorrectCard.style.cursor = 'default';
+            }
+
+            summaryOverlay.classList.remove('hidden');
+            summaryModal.classList.remove('animate-scale-in');
+            void summaryModal.offsetWidth;
+            summaryModal.classList.add('animate-scale-in');
+
+            SoundEngine.playModalOpen();
+            setTimeout(() => SoundEngine.playEnd(), 200);
+        }
+
+        function renderIncorrectReviewList(incorrectAnswersList) {
+            incorrectListContainer.innerHTML = '';
+            if (incorrectAnswersList.length === 0) {
+                incorrectListContainer.innerHTML = '<p class="text-slate-500 text-sm text-center py-2">No incorrect answers — perfect score!</p>';
+                return;
+            }
+
+            incorrectAnswersList.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'review-item flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-sm';
+                div.innerHTML = `
+                    <span class="text-slate-500 font-mono text-xs w-6">#${index + 1}</span>
+                    <span class="text-white font-medium flex-1">${item.questionText}</span>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <span class="text-red-400 flex items-center gap-1">
+                            <span class="text-xs text-slate-500">Your:</span> ${item.userAnswer}
+                        </span>
+                        <span class="text-emerald-400 flex items-center gap-1">
+                            <span class="text-xs text-slate-500">Correct:</span> ${item.correctAnswer}
+                        </span>
+                    </div>
+                `;
+                incorrectListContainer.appendChild(div);
+            });
+        }
+
+        function toggleIncorrectReview() {
+            const incorrectCount = parseInt(statIncorrect.textContent) || 0;
+            if (incorrectCount === 0) return;
+
+            state.isReviewExpanded = !state.isReviewExpanded;
+
+            if (state.isReviewExpanded) {
+                incorrectReviewSection.style.maxHeight = incorrectReviewSection.scrollHeight + 'px';
+                incorrectReviewSection.style.opacity = '1';
+                incorrectChevron.style.transform = 'rotate(180deg)';
+                statIncorrectCard.classList.add('active-review');
+            } else {
+                incorrectReviewSection.style.maxHeight = '0';
+                incorrectReviewSection.style.opacity = '0';
+                incorrectChevron.style.transform = 'rotate(0deg)';
+                statIncorrectCard.classList.remove('active-review');
+            }
+        }
+
+        statIncorrectCard.addEventListener('click', () => {
+            SoundEngine.playClick();
+            toggleIncorrectReview();
+        });
+
+        function hideSummary() {
+            summaryOverlay.classList.add('hidden');
+            state.isReviewExpanded = false;
+            showFooterAndInstaIcons();
+            updateSelectionUI();
+            renderChips();
+            quizAnswerInput.value = '';
+            quizAnswerInput.classList.remove('feedback-correct', 'feedback-incorrect');
+            feedbackArea.innerHTML = '';
+            quizScoreEl.textContent = '0';
+            quizTimerEl.textContent = '00:00';
+            quizQuestionNumEl.textContent = '1';
+            quizTotalQuestionsEl.textContent = '20';
+            quizQuestionText.textContent = '';
+            state._lastIncorrectAnswers = [];
+            state._lastTotalAttempted = 0;
+        }
+
+        btnPracticeAgain.addEventListener('click', () => {
+            SoundEngine.playClick();
+            hideSummary();
+            setTimeout(() => {
+                startQuiz();
+            }, 200);
+        });
+
+        btnChangeSettings.addEventListener('click', () => {
+            SoundEngine.playClick();
+            hideSummary();
+            state.currentView = 'selection';
+            quizView.classList.add('hidden');
+            selectionView.classList.remove('hidden');
+            btnStartPractice.style.display = '';
+            moduleCards.forEach(c => c.style.pointerEvents = 'auto');
+            updateSelectionUI();
+            renderChips();
+        });
+
+        summaryOverlay.addEventListener('click', (e) => {
+            if (e.target === summaryOverlay) {
+                hideSummary();
+                state.currentView = 'selection';
+                quizView.classList.add('hidden');
+                selectionView.classList.remove('hidden');
+                btnStartPractice.style.display = '';
+                moduleCards.forEach(c => c.style.pointerEvents = 'auto');
+                updateSelectionUI();
+                renderChips();
+            }
+        });
+
+        // ──────────────────────────────────────
+        // Event Listeners
+        // ──────────────────────────────────────
+        btnStartPractice.addEventListener('click', startQuiz);
+        btnSubmitAnswer.addEventListener('click', submitAnswer);
+
+        quizAnswerInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitAnswer();
+            }
+        });
+
+        btnEndSession.addEventListener('click', () => {
+            SoundEngine.playClick();
+            if (state.quiz.totalAttempted > 0) {
+                endSession(false);
+            } else {
+                stopTimer();
+                state.quiz.sessionActive = false;
+                state.currentView = 'selection';
+                quizView.classList.add('hidden');
+                quizView.classList.remove('animate-fade-in');
+                selectionView.classList.remove('hidden');
+                selectionView.classList.add('animate-fade-in');
+                btnStartPractice.style.display = '';
+                moduleCards.forEach(c => c.style.pointerEvents = 'auto');
+                showFooterAndInstaIcons();
+                updateSelectionUI();
+                renderChips();
+                quizAnswerInput.value = '';
+                feedbackArea.innerHTML = '';
+                state.quiz = {
+                    questionPool: [],
+                    questionQueue: [],
+                    currentQuestionIndex: 0,
+                    correctAnswers: 0,
+                    totalAttempted: 0,
+                    incorrectAnswers: [],
+                    timerSeconds: 0,
+                    timerInterval: null,
+                    isLocked: false,
+                    sessionActive: false,
+                };
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && state.currentView === 'quiz') {
+                btnEndSession.click();
+            }
+            if (e.key === 'Escape' && !summaryOverlay.classList.contains('hidden')) {
+                hideSummary();
+                state.currentView = 'selection';
+                quizView.classList.add('hidden');
+                selectionView.classList.remove('hidden');
+                btnStartPractice.style.display = '';
+                moduleCards.forEach(c => c.style.pointerEvents = 'auto');
+                updateSelectionUI();
+                renderChips();
+            }
+        });
+
+        ['click', 'touchstart', 'keydown'].forEach(evt => {
+            document.addEventListener(evt, function unlockOnce() {
+                SoundEngine.unlock();
+                document.removeEventListener(evt, unlockOnce);
+            }, { once: true, passive: true });
+        });
+
+        // ──────────────────────────────────────
+        // Initialization
+        // ──────────────────────────────────────
+        function init() {
+            updateModuleCards();
+            updateSelectionUI();
+            renderChips();
+            quizView.classList.add('hidden');
+            selectionView.classList.remove('hidden');
+            btnStartPractice.style.display = '';
+            summaryOverlay.classList.add('hidden');
+            quizTotalQuestionsEl.textContent = '20';
+            state._lastIncorrectAnswers = [];
+            state._lastTotalAttempted = 0;
+            setActiveButton('selectAll');
+            showFooterAndInstaIcons();
+
+            setTimeout(() => {
+                showToast();
+            }, 600);
+        }
+
+        init();
+
+        console.log('%c🧮 MathMaster Pro %cby Sudip Sinha %c| ✨ All Questions Included',
+            'font-size:1.2em;font-weight:bold;color:#818cf8;',
+            'color:#e2e8f0;',
+            'color:#ec4899;');
+    })();
+</script>
+</body>
+</html>
